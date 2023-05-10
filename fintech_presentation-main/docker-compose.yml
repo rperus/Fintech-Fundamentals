@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+    streamlit:
+        build: streamlit
+        ports:
+            - 2222:2222
+        container_name:
+            streamlit_ui
+    model:
+        build: model
+        ports:
+            - 1111:1111
+        container_name: 
+            ml_model
+    database:
+        image: postgres:latest
+        restart: always
+        ports:
+            - 4444:5432
+        volumes:
+            - ./data:/var/lib/postgresql/data
+        environment: 
+            - "POSTGRES_USER=root"
+            - "POSTGRES_PASSWORD=change_me"
+            - "POSTGRES_DB=fintech_database"
+        container_name: 
+            postgres
+    jupyter:
+        build: jupyter
+        ports:
+            - 3333:8888
+        container_name: 
+            jupyter_fintech
+        volumes: 
+            - .:/root
